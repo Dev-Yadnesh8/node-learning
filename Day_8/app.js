@@ -4,6 +4,8 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
+
 
 // cookies
 app.use(cookieParser());
@@ -12,13 +14,20 @@ app.get('/',function (req,res){
     // setting cookie
     // once set always get carry to each rout automatically
     res.cookie("name" ,"yadnesh")
+    // shhhhh is secrete , we keep it very secret
+
+    var token = jwt.sign({email: 'yadnesh@example.com' }, 'secret');
+    res.cookie("token" ,token)
+    console.log(token);
+
     res.send("Hey")
 });
 
 app.get('/read',function (req,res){
     // reading  cookie
     // once set always get carry to each rout automatically
-   console.log(req.cookies);
+   let data =  jwt.verify(req.cookies.token,'secret')
+   console.log(data);
     res.send("Hey")
 });
 
