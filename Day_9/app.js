@@ -19,7 +19,7 @@ app.get('/create', (req, res) => {
     // this will create user and hash it's password using bcrypt
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
-            let createdUser = userModel.createdUser({
+            let createdUser = userModel.create({
                 userName,
                 email,
                 password: hash,
